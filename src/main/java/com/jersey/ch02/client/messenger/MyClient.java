@@ -8,12 +8,12 @@ import javax.ws.rs.client.WebTarget;
 public class MyClient {
 
     public static void main(String[] args) {
-        Client client = ClientBuilder.newClient();
+        /*Client client = ClientBuilder.newClient();
 
-        WebTarget webTarget = client.target("http://localhost:48080/webapi");
+        WebTarget webTarget = client.target("http://localhost:48080/webapi/");
 
 
-        String result = webTarget.path("/messages").request().get(String.class);
-        System.out.println(result);
+        String result = webTarget.path("messages").request().get(String.class);
+        System.out.println(result);*/
     }
 }

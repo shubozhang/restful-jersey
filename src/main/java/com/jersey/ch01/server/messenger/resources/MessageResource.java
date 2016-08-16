@@ -13,7 +13,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("/messages")
-@Produces(MediaType.APPLICATION_XML)
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Consumes(MediaType.APPLICATION_JSON)
 public class MessageResource {
 
 

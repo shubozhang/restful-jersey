@@ -1,5 +1,11 @@
 # restful-jersey
 
+### CH00: Jersey on Http vs Servlet Container
+* Http-only: JDK HTTP container, Simple HTTP container, Jetty HTTP Container, Grizzly
+    source code (with main) -> Jar -> Java Command Line
+  
+* Servlet Container (like Tomcat): Grizzly servlet, Jetty Servlet, Generic Servlet
+    source code (with web.xml) -> War -> Servlet Container
 
 ### CH01: Resources and sub-resources
 #### 1.1 Root Resources

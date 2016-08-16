@@ -4,10 +4,9 @@ import com.jersey.ch01.server.messenger.database.DatabaseClass;
 import com.jersey.ch01.server.messenger.exception.DataNotFoundException;
 import com.jersey.ch01.server.messenger.model.Message;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Shubo on 5/10/2015.
@@ -22,6 +21,15 @@ public class MessageService {
         Message m2 = new Message(2L, "message 2", "Bob");
         Message m3 = new Message(3L, "message 3", "Cook");
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date;
+        try {
+            date = sdf.parse("21/12/2015");
+            m2.setCreated(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         messages.put(1L, m1);
         messages.put(2L, m2);
         messages.put(3L, m3);
@@ -34,8 +42,8 @@ public class MessageService {
 
     public List<Message> getAllMessagesByYear(int year) {
         List<Message> messagesByYear = new ArrayList();
-        Calendar cal = Calendar.getInstance();
-        for(Message message : messages.values()) {
+        for (Message message : messages.values()) {
+            Calendar cal = Calendar.getInstance();
             cal.setTime(message.getCreated());
             if (cal.get(Calendar.YEAR) == year) {
                 messagesByYear.add(message);
@@ -46,7 +54,7 @@ public class MessageService {
 
     public List<Message> getAllMessagePaginated(int start, int size) {
         ArrayList<Message> list = new ArrayList<Message>(messages.values());
-        if(start + size > list.size()) {
+        if (start + size > list.size()) {
             return new ArrayList<Message>();
         }
         return list.subList(start, start + size);
@@ -54,7 +62,7 @@ public class MessageService {
 
     public Message getMessage(long id) {
         Message message = messages.get(id);
-        if(message == null) {
+        if (message == null) {
             throw new DataNotFoundException("Message with id " + id + " not found");
         }
         return message;

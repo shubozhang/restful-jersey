@@ -28,6 +28,13 @@ public class Message {
         this.author = author;
     }
 
+    public Message(long id, String message, Date date,String author) {
+        this.id = id;
+        this.message = message;
+        this.created = date;
+        this.author = author;
+    }
+
     public long getId() {
         return id;
     }
@@ -81,5 +88,17 @@ public class Message {
     public void addLink(String url, String rel) {
         Link link = new Link(url, rel);
         links.add(link);
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", created=" + created +
+                ", author='" + author + '\'' +
+                ", comments=" + comments +
+                ", links=" + links +
+                '}';
     }
 }
