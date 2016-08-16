@@ -229,7 +229,7 @@ public class ItemContentResource {
 * Sub-resource locators with empty path
 
 ```java
-// It is performed at run䴕ጊme thus it is possible to support polymorphism.
+// It is performed at runtime thus it is possible to support polymorphism.
 @Path("/item")
 public class ItemResource {
     @Path("/")
@@ -436,3 +436,49 @@ public static class MySingletonResource {
 ```
 
 ### CH02: Application Deployment and Runtime Environments
+#### 2.1 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

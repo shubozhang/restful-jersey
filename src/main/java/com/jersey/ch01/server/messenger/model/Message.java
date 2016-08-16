@@ -1,11 +1,12 @@
 package com.jersey.ch01.server.messenger.model;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.*;
 
 /**
- * Using JAXB to handle XML
+ * Using JAXB to handle XML and produce xml return type
  */
 @XmlRootElement
 public class Message {
@@ -43,6 +44,7 @@ public class Message {
         this.message = message;
     }
 
+    @XmlElement(name = "createdDate")
     public Date getCreated() {
         return created;
     }

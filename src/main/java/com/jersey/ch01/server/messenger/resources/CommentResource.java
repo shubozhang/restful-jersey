@@ -29,9 +29,9 @@ public class CommentResource {
 
     @PUT
     @Path("/{commentId}")
-    public Comment updateMessage(@PathParam("messageId") long messageid, @PathParam("commentId") long commentId, Comment comment) {
+    public Comment updateMessage(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId, Comment comment) {
         comment.setId(commentId);
-        return commentService.updateComment(messageid, comment);
+        return commentService.updateComment(messageId, comment);
     }
 
     @DELETE
