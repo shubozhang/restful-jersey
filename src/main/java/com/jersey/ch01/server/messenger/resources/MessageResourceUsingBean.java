@@ -3,6 +3,7 @@ package com.jersey.ch01.server.messenger.resources;
 import com.jersey.ch01.server.messenger.model.Message;
 import com.jersey.ch01.server.messenger.resources.beans.MessageFilterBean;
 import com.jersey.ch01.server.messenger.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,7 +18,8 @@ import java.util.List;
 public class MessageResourceUsingBean {
 
 
-    MessageService messageService = new MessageService();
+    @Autowired
+    MessageService messageService;
 
 
     @GET

@@ -2,6 +2,7 @@ package com.jersey.ch01.server.messenger.resources;
 
 import com.jersey.ch01.server.messenger.model.Message;
 import com.jersey.ch01.server.messenger.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -18,7 +19,11 @@ import java.util.List;
 public class MessageResource {
 
 
-    MessageService messageService = new MessageService();
+    @Autowired
+    MessageService messageService;
+
+    @Autowired
+    CommentResource commentResource;
 
     @GET
     public List<Message> getMessages() {
@@ -92,7 +97,7 @@ public class MessageResource {
     * */
     @Path("/{messageId}/comments")
     public CommentResource getCommentResource() {
-        return new CommentResource();
+        return this.commentResource;
     }
 
     private String getUriForSelf(Message message, UriInfo uriInfo) {

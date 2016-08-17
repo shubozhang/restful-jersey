@@ -4,6 +4,7 @@ package com.jersey.ch01.server.messenger.resources;
 
 import com.jersey.ch01.server.messenger.model.Profile;
 import com.jersey.ch01.server.messenger.service.ProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,7 +18,8 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProfileResource {
 
-    private ProfileService profileService = new ProfileService();
+    @Autowired
+    ProfileService profileService;
 
     @GET
     public List<Profile> getProfiles() {

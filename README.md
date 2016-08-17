@@ -2,10 +2,65 @@
 
 ### CH00: Jersey on Http vs Servlet Container
 * Http-only: JDK HTTP container, Simple HTTP container, Jetty HTTP Container, Grizzly
+    
     source code (with main) -> Jar -> Java Command Line
   
 * Servlet Container (like Tomcat): Grizzly servlet, Jetty Servlet, Generic Servlet
+    
     source code (with web.xml) -> War -> Servlet Container
+#### 0.1 Invoking an Endpoint
+ WebTarget
+ * path("")
+ * request()
+ 
+ Invocation.Builder
+ * accept("application/json")
+ * cookie("name", "value")
+ * header("someHeader","someHeader")
+ * get()
+ 
+#### 0.2 Evaluating the Results
+* Return an entity object
+    ```java
+    Book b = target("books").path("1").request().get(Book.class);
+    
+    assertNotNull(b.getTitle())
+    ```
+
+* Return a Response object
+    ```java
+    Response r = target("books").path("1").request().get();
+    
+    assertEquals(200, r.getStatus());
+    Book b = r.readEntity(Book.class);
+    assertNotNull(b.getTitle);
+```
+
+#### 0.3 JerseyTest
+```
+Use JerseyTest and im-memory grizzly container to run unit testing, so you don't have to
+deploy the war file to tomcat.
+```
+
+#### 0.4 Injection with HK2 and @Context
+* Jersey is bundled with HK2(no other DI framework necessary, like spring or Guice)
+* Requires a "binder" registered with ResourceConfig
+```
+SomeClass anInstance = new SomeClass();
+register(new AbstractBinder(){
+        configure() {
+            bind(anInstance).to(SomeClass.class);
+        }
+})
+```
+
+```
+// In resource
+@Context
+SomeClass someInstance;
+```
+
+
 
 ### CH01: Resources and sub-resources
 #### 1.1 Root Resources
@@ -105,8 +160,16 @@
     ```
 
 1.2.7 @Context can be used to obtain contextual Java types related to the request or response.
-      When using servlet then ServletConfig, ServletContext, 
-      HttpServletRequest and HttpServletResponse are available using @Context.
+      * Application
+      * UriInfo
+      * Request
+      * HttpHeaders
+      * SecurityContext
+      * Providers
+      * ServletConfig* (available in servlet container)
+      * ServletContext* (available in servlet container)
+      * HttpServletRequest* (available in servlet container)
+      * HttpServletResponse* (available in servlet container)
     
     ```java
     // Obtaining general map of URI path and/or query parameters

@@ -1,28 +1,31 @@
 package com.jersey.ch01.server.messenger.resources;
 
 import com.jersey.ch01.server.messenger.model.Message;
-import org.glassfish.jersey.message.internal.MessageBodyProviderNotFoundException;
-import org.junit.Ignore;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
-
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import java.net.URI;
+import javax.ws.rs.core.*;
 import java.util.List;
 import static org.junit.Assert.*;
 
+/*
+* This test uses im-memory grizzly container to run unit testing, so you don't have to
+* deploy the war file to tomcat.
+* */
+public class MessageResourceTest extends JerseyTest {
 
-public class MessageResourceTest extends AbstractTest{
+    @Override
+    protected Application configure() {
+        return new ResourceConfig().packages("com.jersey.ch01.server.messenger");
+    }
+
 
     // for return type List, Map, Set, you have to use GenericType wrapper in order to use parser
     @Test
     public void testGetMessages() throws Exception {
-        List<Message> messages = webTarget.path("messages").request().get(new GenericType<List<Message>>() {});
+        List<Message> messages = target("messages").request().get(new GenericType<List<Message>>() {});
 
         System.out.println(messages);
         assertNotNull(messages);
@@ -31,7 +34,7 @@ public class MessageResourceTest extends AbstractTest{
 
     @Test
     public void testGetMessage() throws Exception {
-        Message message = webTarget.path("messages" + "/1").request(MediaType.APPLICATION_JSON).get(Message.class);
+        Message message = target("messages" + "/1").request(MediaType.APPLICATION_JSON).get(Message.class);
         System.out.println(message.toString());
         assertNotNull(message);
     }
@@ -39,7 +42,7 @@ public class MessageResourceTest extends AbstractTest{
     @Test(expected = NotFoundException.class)
     public void testGetMessageWithError() throws Exception {
 
-        Message message = webTarget.path("messages" + "/a").request(MediaType.APPLICATION_JSON)
+        Message message = target("messages" + "/a").request(MediaType.APPLICATION_JSON)
                 .get(Message.class);
         System.out.println(message.toString());
         assertNotNull(message);
@@ -47,10 +50,8 @@ public class MessageResourceTest extends AbstractTest{
 
     @Test
     public void testGetMessagesBy() throws Exception {
-        URI uri = UriBuilder.fromUri(URL).path("messages/by").queryParam("year", 2015).build();
-
-        WebTarget webTarget = client.target(uri);
-        List<Message> messages =webTarget.request().get(new GenericType<List<Message>>() {});
+        List<Message> messages = target("messages/by").queryParam("year", 2015)
+                .request().get(new GenericType<List<Message>>() {});
 
         System.out.println(messages);
 
@@ -62,7 +63,7 @@ public class MessageResourceTest extends AbstractTest{
 
         Message message = new Message(11L,"testing add","Bryan");
 
-        Response response = webTarget.path("messages").request()
+        Response response = target("messages").request()
                 .post(Entity.entity(message,MediaType.APPLICATION_JSON));
 
         assertTrue(201 == response.getStatus());
@@ -73,7 +74,7 @@ public class MessageResourceTest extends AbstractTest{
         Message message = new Message(11L,"testing add","Bryan");
         long id = 100L;
 
-        Response response = webTarget.path("messages/" + id).request(MediaType.APPLICATION_JSON)
+        Response response = target("messages/" + id).request(MediaType.APPLICATION_JSON)
                 .put(Entity.entity(message,MediaType.APPLICATION_JSON));
 
         assertTrue(200 == response.getStatus());
@@ -84,7 +85,7 @@ public class MessageResourceTest extends AbstractTest{
     @Test
     public void testDeleteMessage() throws Exception {
         long id = 100L;
-        Response response = webTarget.path("messages/" + id).request(MediaType.APPLICATION_JSON)
+        Response response = target("messages/" + id).request(MediaType.APPLICATION_JSON)
                 .delete();
 
         assertTrue(200 == response.getStatus());

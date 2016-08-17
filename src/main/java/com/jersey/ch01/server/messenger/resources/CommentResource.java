@@ -3,6 +3,8 @@ package com.jersey.ch01.server.messenger.resources;
 
 import com.jersey.ch01.server.messenger.model.Comment;
 import com.jersey.ch01.server.messenger.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -11,9 +13,13 @@ import java.util.List;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Component("commentResource")
 public class CommentResource {
 
-    private CommentService commentService = new CommentService();
+    public CommentResource() {}
+
+    @Autowired
+    CommentService commentService;
 
 
     @GET
