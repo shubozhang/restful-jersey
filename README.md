@@ -9,11 +9,11 @@
     
     source code (with web.xml) -> War -> Servlet Container
 #### 0.1 Invoking an Endpoint
- WebTarget
+##### 0.1.1 WebTarget
  * path("")
  * request()
  
- Invocation.Builder
+##### 0.1.2 Invocation.Builder
  * accept("application/json")
  * cookie("name", "value")
  * header("someHeader","someHeader")
@@ -21,19 +21,17 @@
  
 #### 0.2 Evaluating the Results
 * Return an entity object
-    ```java
-    Book b = target("books").path("1").request().get(Book.class);
-    
-    assertNotNull(b.getTitle())
-    ```
+```
+Book b = target("books").path("1").request().get(Book.class);
+assertNotNull(b.getTitle())
+```
 
 * Return a Response object
-    ```java
-    Response r = target("books").path("1").request().get();
-    
-    assertEquals(200, r.getStatus());
-    Book b = r.readEntity(Book.class);
-    assertNotNull(b.getTitle);
+```java
+Response r = target("books").path("1").request().get();
+assertEquals(200, r.getStatus());
+Book b = r.readEntity(Book.class);
+assertNotNull(b.getTitle);
 ```
 
 #### 0.3 JerseyTest
@@ -60,7 +58,70 @@ register(new AbstractBinder(){
 SomeClass someInstance;
 ```
 
+#### 0.5 AsyncResponse
+* Resume
+```
+response.resume(book);
+response.resume(new SomeException);
+```
 
+* Cancel
+```
+response.cancel();
+response.cancel(360); // need to wait 360 seconds to retry
+```
+
+* Manage Timeouts
+```
+response.setTimeout(5, TimeUnit.SECONDS);
+response.setTimeoutHandler(
+    new TimeoutHandler() {
+        public void handleTimeout(AsyncResponse resp) {
+            // resume / cancel / or set a new TimeoutHandler
+        }
+    }
+);
+```
+
+* Check Status
+```
+response.isDone();
+response.isSuspended();
+response.isCancelled();
+```
+
+* Register Callbacks
+```
+response.register(
+    new CompletionCallback) {
+        public void onComplete(Throwable throwable) {
+            // called with throwable if an exception
+            // null otherwise
+        }
+    }
+);
+response.register(
+    new ConnectionCallback() {
+        public void onDisconnection(AsyncResponse response) {
+            //
+        }
+    }
+);
+```
+
+* Workflow
+```
+URI Invoked 
+   ||
+Resource method (AsyncResponse rest)
+   ||
+DAO method
+   ||
+ListenableFuture
+    onSuccess(stuff) {
+        resp.resume(stuff)
+    }
+```
 
 ### CH01: Resources and sub-resources
 #### 1.1 Root Resources

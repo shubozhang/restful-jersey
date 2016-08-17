@@ -1,11 +1,8 @@
-package com.jersey.ch02.async.books;
+package com.jersey.ch02.books.sync;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
@@ -32,4 +29,12 @@ public class BookResource {
     public Book getBook(@PathParam("id") String id) {
         return(bookDao.getBook(id));
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Book addBook(Book book) {
+        return(bookDao.addBook(book));
+    }
+
 }

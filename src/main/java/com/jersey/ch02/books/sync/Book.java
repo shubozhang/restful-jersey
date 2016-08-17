@@ -1,4 +1,4 @@
-package com.jersey.ch02.async.books;
+package com.jersey.ch02.books.sync;
 
 import java.util.Date;
 
