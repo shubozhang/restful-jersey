@@ -73,6 +73,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- To support PATCH request -->
+        <dependency>
+            <groupId>org.glassfish.jersey.connectors</groupId>
+            <artifactId>jersey-grizzly-connector</artifactId>
+            <version>${jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-spring3</artifactId>
@@ -107,6 +115,13 @@
                     <artifactId>spring-asm</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- for bean validation -->
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-bean-validation</artifactId>
+            <version>${jersey.version}</version>
         </dependency>
 
 
@@ -185,6 +200,22 @@
             <artifactId>guava</artifactId>
             <version>19.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.jcabi/jcabi-xml -->
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-xml</artifactId>
+            <version>0.17</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- For conditional Get -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+
 
     </dependencies>
 

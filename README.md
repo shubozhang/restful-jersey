@@ -2,12 +2,15 @@
 
 ### CH00: Jersey on Http vs Servlet Container
 * Http-only: JDK HTTP container, Simple HTTP container, Jetty HTTP Container, Grizzly
-    
-    source code (with main) -> Jar -> Java Command Line
+``` 
+source code (with main) -> Jar -> Java Command Line
+```
   
 * Servlet Container (like Tomcat): Grizzly servlet, Jetty Servlet, Generic Servlet
-    
+``` 
     source code (with web.xml) -> War -> Servlet Container
+```
+    
 #### 0.1 Invoking an Endpoint
 ##### 0.1.1 WebTarget
  * path("")
@@ -121,6 +124,85 @@ ListenableFuture
     onSuccess(stuff) {
         resp.resume(stuff)
     }
+```
+
+#### 0.6 Conditional GET Support
+* Hides complexity of request headers and response status codes
+```
+Generate EntityTag -> request.evalutePreconditions()
+if not null
+    Resume with provided response
+else 
+    Resume with new response (and EntityTag)
+```
+
+#### 0.7 Response Object from the Server Perspective
+* Server creates Responses, client receives Responses
+
+* Static methods create a ResponseBuilder
+```
+ok() seeOther() serverError() status() etc.
+```
+
+* A responseBuilder caqn add headers to the response, such as
+```
+Cache control / Last Modified / Cookies / Links /Encoding / Location
+Expires / Entity Tag / Language / Media Type
+```
+
+* A Response builder also specifies the response body with entity()
+
+* The Response is returned with a call to build()
+
+#### 0.8 Filters VS Interceptors
+* Filters Provided with Jersey
+```
+1) Logging
+2) JAX-RS to Spring request attribute bridge
+3) Cross-site request forgery protection
+4) HTTP method overrides
+5) URI-based content negotiation
+```
+
+* Filters functions
+```
+1) Modify headers, the entity and other request/ response parameters
+2) Executed regardless of whether there ia an entity to read or write
+3) Can abort a request, preventing the resource method from executing
+```
+
+* Interceptors
+```
+1) Primarily used to manipulate the entity (via input / output streams)
+2) Change properties to affect choice of Message Body Reader / Writer
+3) Only executed when there ia an entity to read or write
+```
+
+* Execution Order
+```
+Pre-Matching Request Filters
+|| (resource method matching)
+Post-Matching Request Filters
+|| (resource method executed)
+Reader Interceptro
+|| (resource method executed)
+Response Filter
+||
+Writer Interceptor
+```
+
+#### 0.9 Name Binding
+```
+1. Define a name binding annotation: @Something
+
+2. Associate annotation with a filter or interceptor
+@Something
+public class somethingFilter(){}
+
+3. Use annotation to flag a resource method ( or  application)
+@GET
+@Something
+public List<Book> getBooks() {}
 ```
 
 ### CH01: Resources and sub-resources
