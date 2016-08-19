@@ -205,6 +205,31 @@ public class somethingFilter(){}
 public List<Book> getBooks() {}
 ```
 
+
+#### 0.10 XML Parsing: JAXP and JAXB
+* JAXP: Java API for XML Processing.
+```
+1) Support DOM, SAX, and StAX parsing XML standard
+2) DOM
+3) SAX
+4) StAX
+```
+Input Source / Output Result interface
+```
+DOMSource, SAXSource / StreamSource
+DOMResult / SAXResult / StreamResult
+```
+
+* JAXB: Java Architecture for XML Binding
+```
+marshall: serialize POJO to XML
+unmarshall: unserialize XML to Java object
+```
+
+#### 0.11 JSON Parsing: MOXy / JSON-P / Jackson /Jettison
+
+
+
 ### CH01: Resources and sub-resources
 #### 1.1 Root Resources
 * @Path

@@ -22,10 +22,10 @@ import java.util.Collection;
 public class BookAsyncResource {
 
     @Context
-    Request request;
+    private Request request;
 
     @Autowired
-    BookAsyncDao bookAsyncDao;
+    private BookAsyncDao bookAsyncDao;
 
     @GET
     @ManagedAsync
@@ -116,7 +116,7 @@ public class BookAsyncResource {
 
     }
 
-    EntityTag generateEntityTag(Book book) {
+    EntityTag generateEntityTag(final Book book) {
         return(new EntityTag(DigestUtils.md5Hex(book.getAuthor()+
                 book.getTitle()+book.getPublished()+book.getExtras())));
     }
