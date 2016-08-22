@@ -3,6 +3,7 @@ package com.jersey.examples.ch02.books.async;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.jersey.examples.ch02.books.async.providers.BookNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;

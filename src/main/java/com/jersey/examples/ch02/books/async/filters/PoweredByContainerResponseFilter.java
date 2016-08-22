@@ -1,13 +1,12 @@
-package com.jersey.examples.ch02.books.async;
+package com.jersey.examples.ch02.books.async.filters;
 
 import javax.ws.rs.container.*;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 //@PoweredBy
 @Provider
-public class PoweredByFilter implements ContainerResponseFilter,ContainerRequestFilter {
+public class PoweredByContainerResponseFilter implements ContainerResponseFilter{
 
     @Override
     public void filter(ContainerRequestContext requestContext,
@@ -18,12 +17,6 @@ public class PoweredByFilter implements ContainerResponseFilter,ContainerRequest
                 responseContext.getHeaders().add("X-Powered-By", value);
             }
         }
-    }
-
-
-    @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
-
     }
 
 }

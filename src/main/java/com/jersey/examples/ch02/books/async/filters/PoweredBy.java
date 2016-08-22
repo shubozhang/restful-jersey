@@ -1,4 +1,4 @@
-package com.jersey.examples.ch02.books.async;
+package com.jersey.examples.ch02.books.async.filters;
 
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.ElementType;

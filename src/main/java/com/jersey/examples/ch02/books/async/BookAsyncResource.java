@@ -3,6 +3,7 @@ package com.jersey.examples.ch02.books.async;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.jersey.examples.ch02.books.async.filters.PoweredBy;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.glassfish.jersey.server.ManagedAsync;
 import org.springframework.beans.factory.annotation.Autowired;

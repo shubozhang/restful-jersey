@@ -1,4 +1,4 @@
-package com.jersey.examples.ch02.books.async;
+package com.jersey.examples.ch02.books.async.providers;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

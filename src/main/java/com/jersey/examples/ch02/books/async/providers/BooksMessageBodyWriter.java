@@ -1,9 +1,11 @@
-package com.jersey.examples.ch02.books.async;
+package com.jersey.examples.ch02.books.async.providers;
 
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.jersey.examples.ch02.books.async.Book;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;

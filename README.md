@@ -228,6 +228,78 @@ unmarshall: unserialize XML to Java object
 
 #### 0.11 JSON Parsing: MOXy / JSON-P / Jackson /Jettison
 
+#### 0.12 REST Response
+* Four return types: void, Response, GenericEntity, and customized return type
+```
+1) void: http status code is 204. Like delete() method.
+2) Response: content is response.entity(). If it is null, statusCode = 204, otherwise statusCode = 200.
+3) GenericEntity: return new genericEntity<String>(new String(byte[]), String.class)
+4) File / String / POJO
+```
+
+#### 0.13 Providers (Four interfaces: MessageBodyReader, MessageBodyWriter, ExceptionMapper, and ContextResolver)
+* MessageBodyReader
+```
+1) isReadable()
+2) readFrom()
+```
+
+* MessageBodyWriter
+```
+1) isWriteable()
+2) writeTo()
+```
+
+* ExceptionMapper
+
+* ContextResolver
+```
+getContext()
+```
+
+#### 0.14 Filters (ClientRequestFilter, ContainerRequestFilter, ContainerResponseFilter, and ClientResponseFilter)
+* ClientRequestFilter
+```
+@Override
+    public void filter(ClientRequestContext requestContext) throws IOException {
+        if (!requestContext.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+            requestContext.getHeaders().add(HttpHeaders.AUTHORIZATION, authentication);
+        }
+    }
+```
+
+* ContainerRequestFilter
+```
+public static final String HEADER_NAME = "X-Requested-By";
+    private static final Set<String> METHODS_TO_IGNORE;
+    static {
+        HashSet<String> mti = new HashSet<>();
+        mti.add("GET");
+        mti.add("OPTIONS");
+        mti.add("HEAD");
+        METHODS_TO_IGNORE = Collections.unmodifiableSet(mti);
+    }
+    @Override
+    public void filter(ContainerRequestContext requestContext) throws IOException {
+        if (!METHODS_TO_IGNORE.contains(requestContext.getMethod()) && !requestContext.getHeaders().containsKey(HEADER_NAME)) {
+            throw new BadRequestException();
+        }
+    }
+```
+
+* ContainerResponseFilter
+* ClientResponseFilter
+
+#### 0.15 Interceptor: ReaderInterceptor / WriterInterceptor / ContentEncoder
+
+#### 0.16 Name Binding and Dynamic Binding
+* Name Binding
+```
+@NameBinding
+Binding Provider
+Binding Method
+```
+
 
 
 ### CH01: Resources and sub-resources
