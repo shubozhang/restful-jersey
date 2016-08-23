@@ -299,8 +299,130 @@ public static final String HEADER_NAME = "X-Requested-By";
 Binding Provider
 Binding Method
 ```
+* Dynamic Binding
+```
+1) No annotation
+2) implements DynamicFeature
+```
+
+#### 0.16 @Priority
+* For ContainerRequest/PreMatchContainerRequest/ClientRequest: priority is high when the number is small
+* For ContainerResponse/ClientResponse: priority is high when the number is large.
+
+#### 0.17 Client Side
+Three Interfaces:
+```
+1) javax.ws.rs.client.Client
+2) javax.ws.rs.client.WebTarget
+3) javax.ws.rs.client.Invocation
+```
+* Client: it is used for server communication
+```
+        final ClientConfig clientConfig = new ClientConfig();
+        /**代理服务器配置
+        clientConfig.property(ClientProperties.PROXY_URI, "http://192.168.0.100");
+        clientConfig.property(ClientProperties.PROXY_USERNAME, "erichan");
+        clientConfig.property(ClientProperties.PROXY_PASSWORD , "han");
+        clientConfig.property(ClientProperties.CONNECT_TIMEOUT, 1000);
+        clientConfig.property(ClientProperties.READ_TIMEOUT, 2000);
+        **/
+        clientConfig.connectorProvider(new ApacheConnectorProvider());
+        client = ClientBuilder.newClient(clientConfig);
+        checkConfig();
+        protected void checkConfig() {
+                final Configuration newConfiguration = client.getConfiguration();
+                final Map<String, Object> properties = newConfiguration.getProperties();
+                final Iterator<Entry<String, Object>> iterator = properties.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    final Entry<String, Object> next = iterator.next();
+                    Jaxrs2Client.LOGGER.debug(next.getKey() + ":" + next.getValue());
+                }
+            }
+```
+* WebTarget:  (immutable) It is used for REST client side resource location interface
+* Invocation: it is used to send request to server side once resource is located.
+```
+        final WebTarget webTarget = client.target(Jaxrs2Client.BASE_URI);
+        final WebTarget pathTarget = webTarget.path("books");
+        final WebTarget pathTarget2 = pathTarget.path("book");
+        final WebTarget queryTarget = pathTarget2.queryParam("bookId", "1");
+        Jaxrs2Client.LOGGER.debug(queryTarget.getUri());
+        final Invocation.Builder invocationBuilder = queryTarget.request(MediaType.APPLICATION_XML);
+        /*response.readEntity will close the connect*/
+        final Book book = invocationBuilder.get(Book.class);
+        Jaxrs2Client.LOGGER.debug(book);
+```
+
+#### 0.18 Connector
+Four connectors
+```
+1) HttpUrlConnector (default): jersey-client.jar
+2) ApacheConnector: jersey-apache-connector.jar
+3) GrizzlyConnector: jersey-grizzly-connector
+4) InMemoryConnector: jersey-test-framework-provider-inmemory. It is not a real http connector, it is simulated by JVM.
+```
+* HttpUrlConnector
+```
+public class DefaultClient extends Jaxrs2Client {
+    public DefaultClient() {
+        buildClient();
+    }
+    void buildClient0() {
+        client = ClientBuilder.newClient();
+    }
+    void buildClient() {
+        final ClientConfig clientConfig = new ClientConfig();
+        clientConfig.property("TestKey", "TestValue");
+        client = ClientBuilder.newClient(clientConfig);
+        client.property("TestKey2", "TestValue2");
+        checkConfig();
+    }
+}
+```
+* ApacheConnector
+```
+public class ApacheClient extends Jaxrs2Client {
+    public ApacheClient() {
+        buildClient();
+    }
+    void buildClient() {
+        final ClientConfig clientConfig = new ClientConfig();
+        /**代理服务器配置
+        clientConfig.property(ClientProperties.PROXY_URI, "http://192.168.0.100");
+        clientConfig.property(ClientProperties.PROXY_USERNAME, "erichan");
+        clientConfig.property(ClientProperties.PROXY_PASSWORD , "han");
+        clientConfig.property(ClientProperties.CONNECT_TIMEOUT, 1000);
+        clientConfig.property(ClientProperties.READ_TIMEOUT, 2000);
+        **/
+        clientConfig.connectorProvider(new ApacheConnectorProvider());
+        client = ClientBuilder.newClient(clientConfig);
+        checkConfig();
+    }
+}
+```
+* GrizzlyConnector
+```
+public class GrizzlyClient extends Jaxrs2Client {
+    public GrizzlyClient() {
+        buildClient();
+    }
+    void buildClient() {
+        final ClientConfig clientConfig = new ClientConfig();
+        clientConfig.property("TestKey", "TestValue");
+        clientConfig.connectorProvider(new GrizzlyConnectorProvider());
+        client = ClientBuilder.newClient(clientConfig);
+        checkConfig();
+    }
+}
+```
 
 
+#### 0.19 Security (Authentication, Authorization, and Accounting)
+* Identity authentication
+```
+1) username-password authentication
+2) certificate authentication (check request client server)
+```
 
 ### CH01: Resources and sub-resources
 #### 1.1 Root Resources
