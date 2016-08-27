@@ -424,6 +424,34 @@ public class GrizzlyClient extends Jaxrs2Client {
 2) certificate authentication (check request client server)
 ```
 
+#### 0.20 REST Polling/Push and async communication
+* Polling: With polling a client repeatedly sends new requests to a server.
+```
+Pros:  Easy to implement
+Cons: Waste resources
+```
+* Comet: Long Polling and Streaming
+```
+Use keepAlive to keep HTTP connected.
+Pros: low latency
+Cons: Difficult to implement
+```
+* SSE: Server-Sent Events. One of HTML5 standards. EventSource interface: onopen, onmessage and onerror listeners.
+```
+Server‐Sent Events (SSE) is a mechanism that allows server to asynchronously push the data from the server to the client
+once the client-server connection is established by the client. 
+
+Once the connection is established by the client, it is the server who provides the data and decides to send it to the 
+client whenever new "chunk" of data is available.
+
+When a new data event occurs on the server, the data event is sent by the server to the client. 
+
+Pros: HTML5 standard
+```
+
+
+
+
 ### CH01: Resources and sub-resources
 #### 1.1 Root Resources
 * @Path
