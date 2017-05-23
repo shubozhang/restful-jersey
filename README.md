@@ -184,7 +184,7 @@ Pre-Matching Request Filters
 || (resource method matching)
 Post-Matching Request Filters
 || (resource method executed)
-Reader Interceptro
+Reader Interceptor
 || (resource method executed)
 Response Filter
 ||
@@ -248,7 +248,7 @@ unmarshall: unserialize XML to Java object
 ```
 1) @Produces can be applied at both the class and method levels. Method's annotation overrides the class-level setting.
 2) @Produces can declare multiple media types. @Produces({"application/xml", "application/json"})
-3) Higher quality factor one will be selected when client accepts all produce types. 
+3) Higher quality factor(qs) one will be selected when client accepts all produce types. 
    @Produces({"application/xml; qs=0.9", "application/json"}) // "application/json" will be selected.
 ```
 
